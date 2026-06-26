@@ -1,0 +1,1874 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>El Oráculo de Edunuel</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="assets/favicon-16.png" sizes="16x16" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="assets/favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --gold: #c9a84c;
+        --gold-light: #d4af37;
+        --gold-bright: #f0d080;
+        --gold-dim: #7a5c1e;
+        --black: #0a0a0a;
+        --black-soft: #111111;
+        --black-card: rgba(12, 12, 12, 0.92);
+        --white: #f5edd6;
+        --white-dim: #9a8a6a;
+        --wa-green: #25d366;
+        --wa-bubble: #dcf8c6;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--black);
+        color: var(--white);
+        font-family: "EB Garamond", Georgia, serif;
+        font-size: 18px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      button,
+      input[type="submit"],
+      input[type="button"],
+      a {
+        cursor: pointer;
+      }
+
+      .cosmic-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201, 168, 76, 0.08) 0%, transparent 55%),
+          radial-gradient(ellipse 60% 40% at 80% 90%, rgba(201, 168, 76, 0.04) 0%, transparent 50%),
+          linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 50%, #0a0a0a 100%);
+      }
+      #stars {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 200;
+        padding: 0.85rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        background: linear-gradient(to bottom, rgba(10, 10, 10, 0.95), transparent);
+        transition:
+          background 0.4s,
+          border 0.4s;
+      }
+      nav.scrolled {
+        background: rgba(10, 10, 10, 0.98);
+        border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+      }
+      .nav-logo {
+        font-family: "Cinzel Decorative", serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        color: var(--gold);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-shrink: 0;
+      }
+      .nav-logo .horus {
+        font-size: 1.4rem;
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.6rem;
+        list-style: none;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .nav-links a {
+        font-family: "Cinzel", serif;
+        font-size: 0.62rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--white-dim);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .nav-links a:hover {
+        color: var(--gold);
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        flex-shrink: 0;
+      }
+      .nav-cta {
+        font-family: "Cinzel", serif;
+        font-size: 0.58rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold);
+        border: 1px solid rgba(201, 168, 76, 0.5);
+        padding: 0.55rem 1.1rem;
+        text-decoration: none;
+        transition: all 0.3s;
+        white-space: nowrap;
+      }
+      .nav-cta:hover {
+        background: rgba(201, 168, 76, 0.12);
+        box-shadow: 0 0 20px rgba(201, 168, 76, 0.2);
+      }
+      .nav-wa {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--wa-green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+      }
+      
+      .nav-wa svg {
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+      }
+      
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--gold);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .cta-btn {
+        font-family: "Cinzel", serif;
+        font-size: 0.76rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--black);
+        background: linear-gradient(135deg, #ffe09a, var(--gold), #b8860b);
+        padding: 0.9rem 2.4rem;
+        text-decoration: none;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+        transition: all 0.35s;
+        box-shadow: 0 0 25px rgba(201, 168, 76, 0.3);
+      }
+      .cta-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 45px rgba(201, 168, 76, 0.5);
+      }
+      .cta-btn.outline {
+        background: transparent;
+        color: var(--gold);
+        border: 1px solid rgba(201, 168, 76, 0.5);
+        box-shadow: none;
+      }
+      .cta-btn.outline:hover {
+        background: rgba(201, 168, 76, 0.08);
+      }
+
+      .gold-bar {
+        width: 80px;
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--gold), transparent);
+        margin: 0.8rem auto 0;
+      }
+      .section-label {
+        font-family: "Cinzel", serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.8rem;
+        display: block;
+      }
+      h2.section-title {
+        font-family: "Cinzel Decorative", serif;
+        font-size: clamp(1.4rem, 3vw, 2.2rem);
+        color: var(--gold);
+        font-weight: 700;
+      }
+      .fade-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* HERO PORTADA FACEBOOK */
+      #hero {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-end;
+        overflow: hidden;
+      }
+      .hero-cover-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 30%;
+        z-index: 0;
+      }
+      .hero-cover-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background:
+          linear-gradient(
+            to right,
+            rgba(10, 10, 10, 0.88) 0%,
+            rgba(10, 10, 10, 0.45) 45%,
+            rgba(10, 10, 10, 0.2) 70%,
+            transparent 100%
+          ),
+          linear-gradient(
+            to top,
+            rgba(10, 10, 10, 0.95) 0%,
+            rgba(10, 10, 10, 0.3) 40%,
+            rgba(10, 10, 10, 0.5) 100%
+          );
+      }
+      .hero-cover-inner {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 8rem 2rem 5rem;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: end;
+        gap: 2rem;
+      }
+      .hero-text {
+        max-width: 560px;
+      }
+      .hero-trebol {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(201, 168, 76, 0.5);
+        margin-bottom: 1rem;
+        box-shadow: 0 0 20px rgba(62, 224, 122, 0.3);
+      }
+      .hero-horus {
+        font-size: 2rem;
+        color: var(--gold);
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      h1.hero-title {
+        font-family: "Cinzel Decorative", serif;
+        font-size: clamp(2rem, 5vw, 3.8rem);
+        color: var(--gold);
+        line-height: 1.05;
+        letter-spacing: 0.03em;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+      }
+      .hero-script {
+        font-family: "Great Vibes", cursive;
+        font-size: clamp(1.4rem, 3vw, 2rem);
+        color: var(--gold-light);
+        margin: 0.8rem 0 1.8rem;
+        display: block;
+      }
+
+      .hero-floating-cards {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-end;
+        padding-bottom: 0.5rem;
+      }
+      .tarot-card-animated {
+        position: relative;
+        width: min(150px, 16vw);
+        aspect-ratio: 2/3;
+        border: 2px solid rgba(201, 168, 76, 0.55);
+        border-radius: 5px;
+        overflow: hidden;
+        background: #111;
+        box-shadow:
+          0 15px 45px rgba(0, 0, 0, 0.8),
+          0 0 25px rgba(201, 168, 76, 0.15);
+        animation: card-float 5s ease-in-out infinite;
+      }
+      .tarot-card-animated::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          115deg,
+          transparent 40%,
+          rgba(255, 224, 128, 0.25) 50%,
+          transparent 60%
+        );
+        background-size: 200% 200%;
+        animation: card-shimmer 3.5s ease-in-out infinite;
+        pointer-events: none;
+      }
+      .tarot-card-animated img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .tarot-card-animated:nth-child(1) {
+        --rot: -8deg;
+        animation: card-float 5s ease-in-out infinite;
+      }
+      .tarot-card-animated:nth-child(2) {
+        --rot: -3deg;
+        width: min(130px, 14vw);
+        animation: card-float 5s ease-in-out infinite 0.4s;
+      }
+      .tarot-card-animated:nth-child(3) {
+        --rot: 3deg;
+        width: min(130px, 14vw);
+        animation: card-float 5s ease-in-out infinite 0.8s;
+      }
+      .tarot-card-animated:nth-child(4) {
+        --rot: 8deg;
+        animation: card-float 5s ease-in-out infinite 1.2s;
+      }
+      @keyframes card-float {
+        0%,
+        100% {
+          transform: rotate(var(--rot, 0deg)) translateY(0);
+        }
+        50% {
+          transform: rotate(var(--rot, 0deg)) translateY(-14px);
+        }
+      }
+      @keyframes card-shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      /* ZODIAC MARQUEE — loop infinito */
+      .zodiac-strip {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        background: rgba(12, 12, 12, 0.95);
+        border-top: 1px solid rgba(201, 168, 76, 0.2);
+        border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+        padding: 0.85rem 0;
+        overflow: hidden;
+      }
+      .zodiac-strip::before,
+      .zodiac-strip::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 4rem;
+        z-index: 3;
+        pointer-events: none;
+      }
+      .zodiac-strip::before {
+        left: 0;
+        background: linear-gradient(to right, rgba(12, 12, 12, 0.95), transparent);
+      }
+      .zodiac-strip::after {
+        right: 0;
+        background: linear-gradient(to left, rgba(12, 12, 12, 0.95), transparent);
+      }
+      .zodiac-marquee {
+        overflow: hidden;
+        width: 100%;
+      }
+      .zodiac-track {
+        display: flex;
+        width: max-content;
+        flex-wrap: nowrap;
+        gap: 2.5rem;
+        will-change: transform;
+        animation: marquee-scroll var(--marquee-dur, 35s) linear infinite;
+      }
+      .zodiac-set {
+        display: flex;
+        gap: 2.5rem;
+        align-items: center;
+        flex-shrink: 0;
+      }
+      @keyframes marquee-scroll {
+        from {
+          transform: translate3d(0, 0, 0);
+        }
+        to {
+          transform: translate3d(var(--marquee-shift, -50%), 0, 0);
+        }
+      }
+      .z-sign {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35rem;
+        font-family: "Cinzel", serif;
+        font-size: 0.55rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold-dim);
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-width: 3.2rem;
+      }
+      .z-sign .z-sym {
+        font-size: 1.1rem;
+        color: var(--gold);
+      }
+
+      /* SECTIONS */
+      section {
+        position: relative;
+        z-index: 2;
+        padding: 5rem 2rem;
+      }
+      .section-inner {
+        position: relative;
+        z-index: 2;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .sec-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background: linear-gradient(180deg, #0a0a0a, #0d0d0d);
+      }
+      .sec-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background: radial-gradient(
+          ellipse 60% 50% at 50% 50%,
+          rgba(201, 168, 76, 0.04) 0%,
+          transparent 70%
+        );
+      }
+
+      /* SOBRE MI */
+      .about-layout {
+        display: grid;
+        grid-template-columns: 1fr 1.1fr;
+        gap: 3.5rem;
+        align-items: center;
+      }
+      .about-photo img {
+        width: 100%;
+        max-width: 380px;
+        object-fit: cover;
+        aspect-ratio: 0.75;
+        display: block;
+        border: 1px solid rgba(201, 168, 76, 0.35);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      }
+      .about-features {
+        display: grid;
+        gap: 1rem;
+        margin: 1.8rem 0;
+      }
+      .about-feat {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid rgba(201, 168, 76, 0.15);
+        background: rgba(201, 168, 76, 0.03);
+      }
+      .about-feat .ico {
+        font-size: 1.5rem;
+        color: var(--gold);
+        flex-shrink: 0;
+      }
+      .about-feat h4 {
+        font-family: "Cinzel", serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        color: var(--gold);
+        margin-bottom: 0.3rem;
+      }
+      .about-feat p {
+        font-size: 0.88rem;
+        color: var(--white-dim);
+        line-height: 1.5;
+      }
+
+      /* SERVICIOS MVP */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.2rem;
+        margin-top: 2.5rem;
+      }
+      .svc-card {
+        background: var(--black-card);
+        border: 1px solid rgba(201, 168, 76, 0.2);
+        overflow: hidden;
+        transition: all 0.35s;
+      }
+      .svc-card:hover {
+        border-color: rgba(201, 168, 76, 0.45);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+      }
+      .svc-card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        filter: brightness(0.85);
+      }
+      .svc-card-body {
+        padding: 1.4rem 1.2rem;
+      }
+      .svc-card h3 {
+        font-family: "Cinzel", serif;
+        font-size: 0.82rem;
+        letter-spacing: 0.1em;
+        color: var(--gold);
+        margin-bottom: 0.6rem;
+      }
+      .svc-card p {
+        font-size: 0.85rem;
+        color: var(--white-dim);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+      .svc-link {
+        font-family: "Cinzel", serif;
+        font-size: 0.58rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+        padding-bottom: 2px;
+      }
+      .services-pricing {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem;
+        margin-top: 2.5rem;
+      }
+      .price-card {
+        flex: 1 1 220px;
+        max-width: 280px;
+        padding: 1.4rem 1.6rem;
+        background: rgba(201, 168, 76, 0.06);
+        border: 1px solid rgba(201, 168, 76, 0.35);
+        text-align: center;
+      }
+      .price-card--urgent {
+        border-color: rgba(201, 168, 76, 0.55);
+        box-shadow: 0 0 24px rgba(201, 168, 76, 0.08);
+      }
+      .price-label {
+        display: block;
+        font-family: "Cinzel", serif;
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold-dim);
+        margin-bottom: 0.5rem;
+      }
+      .price-amount {
+        display: block;
+        font-family: "Cinzel Decorative", serif;
+        font-size: 1.6rem;
+        color: var(--gold);
+        letter-spacing: 0.06em;
+      }
+      .services-phone {
+        margin-top: 1.8rem;
+        font-family: "Cinzel", serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        color: var(--white-dim);
+      }
+      .services-phone a {
+        color: var(--gold);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(201, 168, 76, 0.35);
+      }
+      .services-phone a:hover {
+        color: var(--gold-bright);
+      }
+
+      /* GALERIA CARRUSEL */
+      #galeria {
+        padding: 0;
+        overflow: hidden;
+      }
+      .gallery-strip {
+        background: rgba(8, 8, 8, 0.95);
+        border-top: 1px solid rgba(201, 168, 76, 0.15);
+        border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+        padding: 1.5rem 0;
+      }
+      .gallery-marquee {
+        overflow: hidden;
+      }
+      .gallery-track {
+        display: flex;
+        width: max-content;
+        flex-wrap: nowrap;
+        gap: 1.5rem;
+        will-change: transform;
+        animation: marquee-scroll var(--marquee-dur, 50s) linear infinite;
+      }
+      .gallery-set {
+        display: flex;
+        gap: 1.5rem;
+        flex-shrink: 0;
+      }
+      .gallery-slide {
+        width: 200px;
+        flex-shrink: 0;
+        text-align: center;
+      }
+      .gallery-slide .slide-img {
+        width: 200px;
+        height: 280px;
+        border: 2px solid rgba(201, 168, 76, 0.35);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+        background: #111;
+      }
+      .gallery-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .gallery-slide .slide-label {
+        font-family: "Cinzel", serif;
+        font-size: 0.58rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-top: 0.7rem;
+        display: block;
+      }
+      /* HOROSCOPO */
+      .horoscope-updated {
+        font-size: 0.8rem;
+        color: var(--white-dim);
+        font-style: italic;
+        margin-top: 0.5rem;
+      }
+      .horoscope-error {
+        grid-column: 1 / -1;
+        color: var(--white-dim);
+        font-style: italic;
+        padding: 1rem;
+      }
+      .zodiac-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.2rem;
+        margin-top: 2.5rem;
+      }
+      .zodiac-card {
+        background: var(--black-card);
+        border: 1px solid rgba(201, 168, 76, 0.18);
+        padding: 1.4rem 1.2rem;
+        text-align: left;
+        transition: all 0.3s;
+      }
+      .zodiac-card:hover {
+        border-color: rgba(201, 168, 76, 0.45);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      }
+      .zodiac-card .z-header {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 0.8rem;
+      }
+      .zodiac-card .z-big {
+        font-size: 1.8rem;
+        color: var(--gold);
+      }
+      .zodiac-card .z-name {
+        font-family: "Cinzel", serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        color: var(--gold);
+      }
+      .zodiac-card .z-date {
+        font-size: 0.7rem;
+        color: var(--white-dim);
+      }
+      .zodiac-card .z-pred {
+        font-size: 0.88rem;
+        color: rgba(245, 237, 214, 0.75);
+        line-height: 1.65;
+        font-style: italic;
+      }
+
+      /* TESTIMONIOS WHATSAPP */
+      .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 2.5rem;
+      }
+      .wa-testimonial {
+        background: rgba(12, 12, 12, 0.8);
+        border: 1px solid rgba(201, 168, 76, 0.15);
+        padding: 1.5rem;
+        border-radius: 8px;
+      }
+      .wa-bubble {
+        background: var(--wa-bubble);
+        color: #1a1a1a;
+        padding: 0.9rem 1rem;
+        border-radius: 12px 12px 12px 4px;
+        font-size: 0.88rem;
+        line-height: 1.55;
+        position: relative;
+        margin-bottom: 0.8rem;
+      }
+      .wa-bubble::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: -6px;
+        width: 0;
+        height: 0;
+        border: 6px solid transparent;
+        border-right-color: var(--wa-bubble);
+        border-bottom-color: var(--wa-bubble);
+      }
+      .wa-stars {
+        color: var(--gold);
+        font-size: 0.9rem;
+        letter-spacing: 0.15rem;
+        margin-bottom: 0.5rem;
+      }
+      .wa-author {
+        font-family: "Cinzel", serif;
+        font-size: 0.62rem;
+        color: var(--white-dim);
+        letter-spacing: 0.08em;
+      }
+
+      /* TIKTOK EMBEDS */
+      .tiktok-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 2.5rem;
+        justify-items: center;
+        align-items: start;
+      }
+      .tiktok-item {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+      }
+      .tiktok-embed-wrap {
+        --embed-w: 325px;
+        --embed-h: 738px;
+        --embed-scale: 0.84;
+        --embed-crop: 72px;
+        width: calc(var(--embed-w) * var(--embed-scale));
+        height: calc((var(--embed-h) - var(--embed-crop)) * var(--embed-scale));
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+        border: 1px solid rgba(201, 168, 76, 0.25);
+        background: #0a0a0a;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+      }
+      .tiktok-embed-wrap iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: var(--embed-w);
+        height: var(--embed-h);
+        transform: scale(var(--embed-scale));
+        transform-origin: top left;
+        border: 0;
+        display: block;
+        overflow: hidden;
+      }
+      .tiktok-label {
+        display: block;
+        margin-top: 0.75rem;
+        font-family: "Cinzel", serif;
+        font-size: 0.62rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+      .tiktok-open {
+        display: inline-block;
+        margin-top: 0.35rem;
+        font-size: 0.72rem;
+        color: var(--gold-dim);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+      }
+      .tiktok-open:hover {
+        color: var(--gold);
+      }
+      .tiktok-cta {
+        margin-top: 2.5rem;
+        text-align: center;
+      }
+
+      /* CTA MESA */
+      #cta-final {
+        position: relative;
+        padding: 6rem 2rem;
+        overflow: hidden;
+        text-align: center;
+      }
+      .cta-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .cta-bg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.35);
+      }
+      .cta-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background: linear-gradient(to top, rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.5));
+      }
+      .cta-content {
+        position: relative;
+        z-index: 3;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .sparkle-layer {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .sparkle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: var(--gold-bright);
+        border-radius: 50%;
+        animation: sparkle-pulse var(--sp-dur, 3s) ease-in-out infinite;
+        box-shadow: 0 0 6px var(--gold);
+      }
+      @keyframes sparkle-pulse {
+        0%,
+        100% {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+      }
+
+      /* BOOKING */
+      .booking-wrap {
+        max-width: 680px;
+        margin: 2.5rem auto 0;
+        background: var(--black-card);
+        border: 1px solid rgba(201, 168, 76, 0.25);
+        padding: 2.5rem 2rem;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .field.full {
+        grid-column: 1/-1;
+      }
+      label {
+        font-family: "Cinzel", serif;
+        font-size: 0.6rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold-dim);
+      }
+      input,
+      select,
+      textarea {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(201, 168, 76, 0.2);
+        color: var(--white);
+        padding: 0.7rem 1rem;
+        font-family: "EB Garamond", serif;
+        font-size: 1rem;
+        outline: none;
+        -webkit-appearance: none;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: rgba(201, 168, 76, 0.55);
+      }
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+      .submit-btn {
+        width: 100%;
+        margin-top: 1.2rem;
+      }
+
+      /* REDES */
+      .social-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+      .social-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: "Cinzel", serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 0.7rem 1.4rem;
+        border: 1px solid rgba(201, 168, 76, 0.2);
+        color: var(--white-dim);
+        transition: all 0.3s;
+      }
+      .social-btn:hover {
+        color: var(--gold);
+        border-color: rgba(201, 168, 76, 0.45);
+      }
+      .social-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      footer {
+        position: relative;
+        z-index: 2;
+        background: #080808;
+        border-top: 1px solid rgba(201, 168, 76, 0.15);
+        padding: 3rem 2rem;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1fr 1fr;
+        gap: 2rem;
+        max-width: 1100px;
+        margin: 0 auto 2rem;
+      }
+      .footer-logo {
+        font-family: "Cinzel Decorative", serif;
+        font-size: 1rem;
+        color: var(--gold);
+        margin-bottom: 0.5rem;
+      }
+      .footer-col h4 {
+        font-family: "Cinzel", serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        color: var(--gold);
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+      }
+      .footer-col a,
+      .footer-col p {
+        display: block;
+        font-size: 0.82rem;
+        color: var(--white-dim);
+        text-decoration: none;
+        margin-bottom: 0.4rem;
+      }
+      .footer-col a:hover {
+        color: var(--gold);
+      }
+      .footer-copy {
+        text-align: center;
+        font-size: 0.7rem;
+        color: rgba(154, 138, 106, 0.4);
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(201, 168, 76, 0.1);
+      }
+
+      .wa-float {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 300;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--wa-green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 25px rgba(37, 211, 102, 0.4);
+        animation: wa-pulse 3s ease-in-out infinite;
+        text-decoration: none;
+      }
+      @keyframes wa-pulse {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
+      }
+      .wa-float svg {
+        width: 28px;
+        height: 28px;
+        fill: #fff;
+      }
+      .toast {
+        position: fixed;
+        bottom: 5rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--black-card);
+        border: 1px solid var(--gold);
+        padding: 1rem 2rem;
+        font-family: "Cinzel", serif;
+        font-size: 0.72rem;
+        color: var(--gold);
+        z-index: 400;
+        opacity: 0;
+        transition: all 0.4s;
+        pointer-events: none;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      @media (max-width: 900px) {
+        .hero-cover-inner {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .hero-floating-cards {
+          justify-content: center;
+          margin-top: 1.5rem;
+        }
+        .services-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .testimonials-grid,
+        .tiktok-grid {
+          grid-template-columns: 1fr;
+        }
+        .zodiac-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 700px) {
+        .nav-links {
+          display: none;
+          position: fixed;
+          top: 0;
+          right: 0;
+          width: 75%;
+          height: 100vh;
+          background: rgba(10, 10, 10, 0.98);
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 2rem;
+          border-left: 1px solid rgba(201, 168, 76, 0.2);
+          z-index: 199;
+        }
+        .nav-links.open {
+          display: flex;
+        }
+        .menu-toggle {
+          display: block;
+        }
+        .nav-actions .nav-cta {
+          display: none;
+        }
+        .hero-floating-cards {
+          display: none;
+        }
+        .about-layout {
+          grid-template-columns: 1fr;
+        }
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        .gallery-slide,
+        .gallery-slide .slide-img {
+          width: 160px;
+          height: 224px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cosmic-bg"></div>
+    <canvas id="stars"></canvas>
+
+    <nav id="navbar">
+      <a href="#hero" class="nav-logo">El Oráculo de Edunuel</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menú">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero">Inicio</a></li>
+        <li><a href="#sobre-mi">Sobre Mí</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#testimonios">Testimonios</a></li>
+        <li><a href="#galeria">Galería</a></li>
+        <li><a href="#horoscopo">Horóscopo</a></li>
+        <li><a href="#agendar">Contacto</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#agendar" class="nav-cta">Reservar Lectura</a>
+        <a
+          href="https://wa.me/524761006958"
+          target="_blank"
+          rel="noopener"
+          class="nav-wa"
+          aria-label="WhatsApp"
+        >
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+            />
+          </svg>
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO PORTADA -->
+    <section id="hero">
+      <img
+        class="hero-cover-img"
+        src="assets/hero/cover.jpg"
+        alt="El Oráculo de Edunuel — lectura de tarot"
+      />
+      <div class="hero-cover-overlay"></div>
+      <div class="hero-cover-inner">
+        <div class="hero-text fade-up">
+          <img class="hero-trebol" src="assets/symbols/trebol.jpg" alt="Trébol de buena suerte" />
+          <!-- <span class="hero-horus">𓂀</span> -->
+          <h1 class="hero-title">EL ORÁCULO DE EDUNUEL</h1>
+          <span class="hero-script">Mensajes que iluminan tu camino</span>
+          <a href="#agendar" class="cta-btn">✦ Reservar Lectura ✦</a>
+        </div>
+        <div class="hero-floating-cards fade-up">
+          <div class="tarot-card-animated"><img src="assets/tarot/carro.jpg" alt="El Carro" /></div>
+          <div class="tarot-card-animated"><img src="assets/tarot/sol.jpg" alt="El Sol" /></div>
+          <div class="tarot-card-animated">
+            <img src="assets/tarot/enamorados.jpg" alt="Los Enamorados" />
+          </div>
+          <div class="tarot-card-animated">
+            <img src="assets/tarot/templanza.jpg" alt="La Templanza" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZODIAC STRIP -->
+    <div class="zodiac-strip">
+      <div class="zodiac-marquee">
+        <div class="zodiac-track" id="zodiacTrack">
+          <div class="zodiac-set" id="zodiacSet">
+            <div class="z-sign"><span class="z-sym">♈</span>Aries</div>
+            <div class="z-sign"><span class="z-sym">♉</span>Tauro</div>
+            <div class="z-sign"><span class="z-sym">♊</span>Géminis</div>
+            <div class="z-sign"><span class="z-sym">♋</span>Cáncer</div>
+            <div class="z-sign"><span class="z-sym">♌</span>Leo</div>
+            <div class="z-sign"><span class="z-sym">♍</span>Virgo</div>
+            <div class="z-sign"><span class="z-sym">♎</span>Libra</div>
+            <div class="z-sign"><span class="z-sym">♏</span>Escorpio</div>
+            <div class="z-sign"><span class="z-sym">♐</span>Sagitario</div>
+            <div class="z-sign"><span class="z-sym">♑</span>Capricornio</div>
+            <div class="z-sign"><span class="z-sym">♒</span>Acuario</div>
+            <div class="z-sign"><span class="z-sym">♓</span>Piscis</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOBRE MI -->
+    <section id="sobre-mi">
+      <div class="sec-bg"></div>
+      <div class="sec-overlay"></div>
+      <div class="section-inner">
+        <div class="about-layout">
+          <div class="about-photo fade-up">
+            <img src="assets/file-photo.jpeg" alt="Edunuel — El Oráculo" />
+          </div>
+          <div class="fade-up">
+            <span class="section-label">✦ Sobre Mí ✦</span>
+            <h2 class="section-title">Tu Guía Espiritual</h2>
+            <div class="gold-bar" style="margin: 1rem 0 1.5rem"></div>
+            <p style="color: var(--white-dim); margin-bottom: 1rem">
+              Soy Edunuel, tarotista y guía espiritual. A través del tarot, la astrología y el
+              estudio de la psicología, te ayudo a encontrar claridad en tu camino.
+            </p>
+            <!-- <p style="color:var(--white-dim);margin-bottom:1rem"><em style="color:rgba(201,168,76,.8)">"Tú tienes el poder de escribir tu destino. Yo estoy aquí para recordártelo."</em></p> -->
+            <p style="color: var(--white-dim); margin-bottom: 1rem">
+              <em style="color: rgba(201, 168, 76, 0.8)"
+                >"Yo no vine a rendirme vine a cambiar mi historia confio en mi camino suelto lo que
+                pesa y avanzo sin miedo hacia todo lo bueno que merezco"</em
+              >
+            </p>
+            <div class="about-features">
+              <div class="about-feat">
+                <span class="ico">🌙</span>
+                <div>
+                  <h4>Conexión profunda</h4>
+                  <p>
+                    Lecturas que van más allá de lo superficial, conectando con tu energía real.
+                  </p>
+                </div>
+              </div>
+              <div class="about-feat">
+                <span class="ico">✦</span>
+                <div>
+                  <h4>Experiencia y profesionalismo</h4>
+                  <p>Años de estudio en tarot, astrología y tradiciones esotéricas.</p>
+                </div>
+              </div>
+              <div class="about-feat">
+                <span class="ico">🔒</span>
+                <div>
+                  <h4>Confidencialidad total</h4>
+                  <p>Tu historia y tus consultas se manejan con absoluto respeto y privacidad.</p>
+                </div>
+              </div>
+            </div>
+            <a href="#agendar" class="cta-btn outline">Conoce mi Historia</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios">
+      <div class="sec-bg"></div>
+      <div class="sec-overlay"></div>
+      <div class="section-inner" style="text-align: center">
+        <span class="section-label fade-up">✦ Mis Servicios ✦</span>
+        <h2 class="section-title fade-up">Lecturas & Trabajos</h2>
+        <div class="gold-bar"></div>
+        <div class="services-grid">
+          <div class="svc-card fade-up">
+            <img src="assets/services/amor.jpg" alt="Amor" />
+            <div class="svc-card-body">
+              <h3>Amor</h3>
+              <p>Claridad en relaciones, vínculos y decisiones del corazón.</p>
+              <a href="#agendar" class="svc-link">Más información</a>
+            </div>
+          </div>
+          <div class="svc-card fade-up">
+            <img src="assets/services/dinero.jpg" alt="Dinero" />
+            <div class="svc-card-body">
+              <h3>Dinero</h3>
+              <p>Abundancia, prosperidad y apertura de caminos financieros.</p>
+              <a href="#agendar" class="svc-link">Más información</a>
+            </div>
+          </div>
+          <div class="svc-card fade-up">
+            <img src="assets/services/trabajo.jpg" alt="Trabajo" />
+            <div class="svc-card-body">
+              <h3>Trabajo</h3>
+              <p>Orientación profesional y decisiones que definen tu futuro.</p>
+              <a href="#agendar" class="svc-link">Más información</a>
+            </div>
+          </div>
+          <div class="svc-card fade-up">
+            <img src="assets/services/familia.jpg" alt="Familia" />
+            <div class="svc-card-body">
+              <h3>Familia</h3>
+              <p>Armonía, sanación y comprensión en los lazos familiares.</p>
+              <a href="#agendar" class="svc-link">Más información</a>
+            </div>
+          </div>
+        </div>
+        <div class="services-pricing fade-up">
+          <div class="price-card">
+            <span class="price-label">Lectura estándar</span>
+            <span class="price-amount">$50 USD</span>
+          </div>
+          <div class="price-card price-card--urgent">
+            <span class="price-label">Lecturas urgentes</span>
+            <span class="price-amount">$60 USD</span>
+          </div>
+        </div>
+        <p class="services-phone fade-up">
+          Reserva lecturas por WhatsApp:
+          <a href="https://wa.me/524761596799" target="_blank" rel="noopener">+52 476 159 6799</a>
+        </p>
+      </div>
+    </section>
+    <section id="galeria">
+      <div class="gallery-strip">
+        <div class="gallery-marquee">
+          <div class="gallery-track" id="galleryTrack">
+            <div class="gallery-set" id="gallerySet1"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOROSCOPO -->
+    <section id="horoscopo">
+      <div class="sec-bg"></div>
+      <div class="sec-overlay"></div>
+      <div class="section-inner" style="text-align: center">
+        <span class="section-label fade-up">✦ Los Astros ✦</span>
+        <h2 class="section-title fade-up">Tu Signo, Tu Destino</h2>
+        <div class="gold-bar"></div>
+        <p class="horoscope-updated fade-up" id="horoscopeUpdated"></p>
+        <div class="zodiac-grid" id="zodiacGrid"></div>
+        <div style="margin-top: 2.5rem">
+          <a href="#agendar" class="cta-btn fade-up">✦ Pide tu Lectura Astral ✦</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section id="testimonios">
+      <div class="sec-bg"></div>
+      <div class="sec-overlay"></div>
+      <div class="section-inner" style="text-align: center">
+        <span class="section-label fade-up">✦ Experiencias ✦</span>
+        <h2 class="section-title fade-up">Testimonios</h2>
+        <div class="gold-bar"></div>
+        <div class="testimonials-grid">
+          <div class="wa-testimonial fade-up">
+            <div class="wa-bubble">
+              "La lectura de Edunuel me dio claridad en un momento de mucha confusión. Sus palabras
+              resonaron profundo en mi corazón. 🙏"
+            </div>
+            <div class="wa-stars">★★★★★</div>
+            <div class="wa-author">— Mariana G., CDMX</div>
+          </div>
+          <div class="wa-testimonial fade-up">
+            <div class="wa-bubble">
+              "Nunca había creído tanto en el tarot hasta que tuve mi sesión. Edunuel tiene un don
+              especial para conectar con tu energía. ✨"
+            </div>
+            <div class="wa-stars">★★★★★</div>
+            <div class="wa-author">— Roberto A., Guadalajara</div>
+          </div>
+          <div class="wa-testimonial fade-up">
+            <div class="wa-bubble">
+              "Mi horóscopo natal fue revelador. Entendí patrones en mi vida que nunca había podido
+              ver. 100% recomendado. 🌟"
+            </div>
+            <div class="wa-stars">★★★★★</div>
+            <div class="wa-author">— Valeria R., Monterrey</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIKTOK -->
+    <section id="tiktok">
+      <div class="sec-bg"></div>
+      <div class="sec-overlay"></div>
+      <div class="section-inner" style="text-align: center">
+        <span class="section-label fade-up">✦ En Vivo ✦</span>
+        <h2 class="section-title fade-up">En Vivo en TikTok</h2>
+        <div class="gold-bar"></div>
+        <div class="tiktok-grid">
+          <div class="tiktok-item fade-up">
+            <div class="tiktok-embed-wrap">
+              <iframe
+                src="https://www.tiktok.com/embed/v2/7554401718881111309?lang=es-MX"
+                title="En vivo TikTok — Video 1"
+                loading="lazy"
+                scrolling="no"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <!-- <span class="tiktok-label">Video 1</span> -->
+            <a
+              class="tiktok-open"
+              href="https://www.tiktok.com/@oraculodeedunuel/video/7554401718881111309"
+              target="_blank"
+              rel="noopener"
+              >Abrir en TikTok</a
+            >
+          </div>
+          <div class="tiktok-item fade-up">
+            <div class="tiktok-embed-wrap">
+              <iframe
+                src="https://www.tiktok.com/embed/v2/7582246199298755895?lang=es-MX"
+                title="En vivo TikTok — Video 2"
+                loading="lazy"
+                scrolling="no"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <!-- <span class="tiktok-label">Video 2</span> -->
+            <a
+              class="tiktok-open"
+              href="https://www.tiktok.com/@oraculodeedunuel/video/7582246199298755895"
+              target="_blank"
+              rel="noopener"
+              >Abrir en TikTok</a
+            >
+          </div>
+          <div class="tiktok-item fade-up">
+            <div class="tiktok-embed-wrap">
+              <iframe
+                src="https://www.tiktok.com/embed/v2/7603899741864316173?lang=es-MX"
+                title="En vivo TikTok — Video 3"
+                loading="lazy"
+                scrolling="no"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <!-- <span class="tiktok-label">Video 3</span> -->
+            <a
+              class="tiktok-open"
+              href="https://www.tiktok.com/@oraculodeedunuel/video/7603899741864316173"
+              target="_blank"
+              rel="noopener"
+              >Abrir en TikTok</a
+            >
+          </div>
+        </div>
+        <div class="tiktok-cta">
+          <a
+            href="https://www.tiktok.com/@oraculodeedunuel?_r=1&_t=ZT-97LXmd3AIwv"
+            target="_blank"
+            rel="noopener"
+            class="cta-btn fade-up"
+            >✦ Sígueme en TikTok ✦</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- AGENDAR -->
+    <section id="agendar">
+      <div class="sec-bg"></div>
+      <div class="sec-overlay"></div>
+      <div class="section-inner" style="text-align: center">
+        <span class="section-label fade-up">✦ Contacto ✦</span>
+        <h2 class="section-title fade-up">Agenda tu Consulta</h2>
+        <div class="gold-bar"></div>
+        <div class="booking-wrap fade-up">
+          <div class="form-grid">
+            <div class="field">
+              <label>Nombre</label><input type="text" id="fname" placeholder="Tu nombre" />
+            </div>
+            <div class="field">
+              <label>WhatsApp</label
+              ><input type="tel" id="fphone" placeholder="+52 476 100 6958" />
+            </div>
+            <div class="field">
+              <label>Lectura</label>
+              <select id="fservice">
+                <option value="">— Elige —</option>
+                <option>Amor — $50 USD</option>
+                <option>Dinero — $50 USD</option>
+                <option>Trabajo — $50 USD</option>
+                <option>Familia — $50 USD</option>
+                <option>Horóscopo — $50 USD</option>
+                <option>Lectura urgente — $60 USD</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label>Mensaje</label
+              ><textarea id="fmsg" placeholder="Cuéntame brevemente…"></textarea>
+            </div>
+          </div>
+          <button class="cta-btn submit-btn" onclick="submitForm()">
+            ✦ Solicitar mi Lectura ✦
+          </button>
+          <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--white-dim)">
+            O escríbeme por
+            <a href="https://wa.me/524761006958" style="color: var(--gold)">WhatsApp</a>
+            · +52 476 100 6958
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section id="cta-final">
+      <div class="cta-bg"><img src="assets/scenes/mesa-destellos.jpg" alt="" /></div>
+      <div class="cta-overlay"></div>
+      <div class="sparkle-layer" id="sparkleLayer"></div>
+      <div class="cta-content fade-up">
+        <h2 class="section-title" style="margin-bottom: 1rem">¿Listo para recibir tu mensaje?</h2>
+        <p style="color: var(--white-dim); margin-bottom: 2rem; font-style: italic">
+          Estoy aquí para ayudarte a encontrar las respuestas que buscas.
+        </p>
+        <a href="https://wa.me/524761006958" target="_blank" rel="noopener" class="cta-btn"
+          >✦ Reserva por WhatsApp ✦</a
+        >
+      </div>
+    </section>
+
+    <!-- REDES -->
+    <section id="redes" style="padding: 4rem 2rem">
+      <div class="section-inner" style="text-align: center">
+        <span class="section-label">✦ Sígueme ✦</span>
+        <h2 class="section-title">Redes Sociales</h2>
+        <div class="social-links">
+          <a
+            href="https://www.tiktok.com/@oraculodeedunuel"
+            target="_blank"
+            rel="noopener"
+            class="social-btn"
+            ><span>TikTok</span></a
+          >
+          <!-- <a
+            href="https://www.instagram.com/eltarotylafuerzamistica/"
+            target="_blank"
+            rel="noopener"
+            class="social-btn"
+            ><span>Instagram</span></a
+          > -->
+          <a
+            href="https://www.facebook.com/share/1GgPXTUPmJ/"
+            target="_blank"
+            rel="noopener"
+            class="social-btn"
+            ><span>Facebook</span></a
+          >
+          <a
+            href="https://youtube.com/@eloraculodeedunueldesousa?si=q_ZUZlejk3wlVZWt"
+            target="_blank"
+            rel="noopener"
+            class="social-btn"
+            ><span>YouTube</span></a
+          >
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-logo">El Oráculo de Edunuel</div>
+          <p>Tu Guía · Tu Luz · Tu Verdad</p>
+        </div>
+        <div class="footer-col">
+          <h4>Enlaces</h4>
+          <a href="#servicios">Servicios</a><a href="#horoscopo">Horóscopo</a
+          ><a href="#agendar">Contacto</a>
+        </div>
+        <!-- <div class="footer-col">
+          <h4>Sígueme</h4>
+          <a href="https://www.tiktok.com/@oraculodeedunuel" target="_blank">TikTok</a
+          ><a href="https://www.instagram.com/eltarotylafuerzamistica/" target="_blank"
+            >Instagram</a
+          >
+        </div> -->
+        <div class="footer-col">
+          <h4>Contacto</h4>
+          <a href="https://wa.me/524761006958">WhatsApp</a>
+          <p>+52 476 100 6958</p>
+        </div>
+      </div>
+      <p class="footer-copy">© 2026 El Oráculo de Edunuel · Todos los derechos reservados</p>
+    </footer>
+
+    <a
+      href="https://wa.me/524761006958"
+      target="_blank"
+      rel="noopener"
+      class="wa-float"
+      aria-label="WhatsApp"
+    >
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+        />
+      </svg>
+    </a>
+    <div class="toast" id="toast">✦ Solicitud enviada ✦</div>
+
+    <script>
+      const GALLERY_SLIDES = [
+        { src: "assets/symbols/balanza.jpg", label: "Justicia · Psicología" },
+        { src: "assets/file-photo.jpeg", label: "Edunuel" },
+        { src: "assets/symbols/horus.jpg", label: "Ojo de Horus" },
+        { src: "assets/symbols/trebol.jpg", label: "Trébol de Suerte" },
+        { src: "assets/symbols/esfera.jpg", label: "Esfera de Cristal" },
+        { src: "assets/tarot/carro.jpg", label: "El Carro" },
+        { src: "assets/tarot/sol.jpg", label: "El Sol" },
+        { src: "assets/tarot/enamorados.jpg", label: "Los Enamorados" },
+        { src: "assets/tarot/templanza.jpg", label: "La Templanza" },
+      ];
+
+      function slideHTML(s) {
+        return `<div class="gallery-slide"><div class="slide-img"><img src="${s.src}" alt="${s.label}" loading="lazy"></div><span class="slide-label">${s.label}</span></div>`;
+      }
+      function initInfiniteMarquee(trackId, setSelector, speedPxPerSec) {
+        const track = document.getElementById(trackId);
+        if (!track) return;
+        const template = track.querySelector(setSelector);
+        if (!template) return;
+        const setHTML = template.outerHTML;
+        let resizeTimer;
+
+        function rebuild() {
+          track.innerHTML = setHTML;
+          const vw = window.innerWidth;
+          while (track.scrollWidth < vw * 3) {
+            track.insertAdjacentHTML("beforeend", setHTML);
+          }
+          if (track.querySelectorAll(setSelector).length < 2) {
+            track.insertAdjacentHTML("beforeend", setHTML);
+          }
+          track.style.animation = "none";
+          void track.offsetWidth;
+          const sets = track.querySelectorAll(setSelector);
+          if (sets.length < 2) return;
+          const shift = Math.round(sets[1].offsetLeft - sets[0].offsetLeft);
+          if (shift < 1) return;
+          track.style.setProperty("--marquee-shift", `-${shift}px`);
+          track.style.setProperty("--marquee-dur", `${shift / speedPxPerSec}s`);
+          track.style.animation = "";
+        }
+
+        rebuild();
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(rebuild, 150);
+        });
+        if (document.fonts?.ready) document.fonts.ready.then(rebuild);
+        track.querySelectorAll("img").forEach((img) => {
+          if (!img.complete) img.addEventListener("load", rebuild, { once: true });
+        });
+      }
+
+      function initGallery() {
+        const h = GALLERY_SLIDES.map(slideHTML).join("");
+        document.getElementById("gallerySet1").innerHTML = h;
+        initInfiniteMarquee("galleryTrack", ".gallery-set", 40);
+      }
+      initGallery();
+      initInfiniteMarquee("zodiacTrack", ".zodiac-set", 55);
+
+      function renderHoroscope(data) {
+        document.getElementById("horoscopeUpdated").textContent = `Actualizado: ${data.updated}`;
+        document.getElementById("zodiacGrid").innerHTML = data.signs
+          .map(
+            (s) => `
+    <div class="zodiac-card fade-up">
+      <div class="z-header"><span class="z-big">${s.symbol}</span><div><div class="z-name">${s.name}</div><div class="z-date">${s.dates}</div></div></div>
+      <p class="z-pred">${s.prediction}</p>
+    </div>`,
+          )
+          .join("");
+        document.querySelectorAll("#zodiacGrid .fade-up").forEach((el) => io.observe(el));
+      }
+      function showHoroscopeError() {
+        document.getElementById("horoscopeUpdated").textContent = "";
+        document.getElementById("zodiacGrid").innerHTML =
+          '<p class="horoscope-error fade-up">Las predicciones no están disponibles en este momento. Vuelve a intentarlo más tarde.</p>';
+        document.querySelectorAll("#zodiacGrid .fade-up").forEach((el) => io.observe(el));
+      }
+
+      const HOROSCOPE_API = "/api/horoscopo";
+
+      function parseHoroscopeData(raw) {
+        if (!raw || !Array.isArray(raw.signs) || raw.signs.length === 0) {
+          throw new Error("invalid horoscope data");
+        }
+        return raw;
+      }
+
+      async function fetchHoroscope() {
+        const bust = `t=${Date.now()}`;
+        const opts = { cache: "no-store" };
+        try {
+          const r = await fetch(`${HOROSCOPE_API}?${bust}`, opts);
+          if (r.ok) return parseHoroscopeData(await r.json());
+        } catch (e) {}
+        const r = await fetch(`data/horoscopo.json?${bust}`, opts);
+        if (!r.ok) throw new Error("horoscope unavailable");
+        return parseHoroscopeData(await r.json());
+      }
+
+      async function loadHoroscope() {
+        try {
+          renderHoroscope(await fetchHoroscope());
+        } catch (e) {
+          showHoroscopeError();
+        }
+      }
+      loadHoroscope();
+
+      function initSparkles() {
+        const layer = document.getElementById("sparkleLayer");
+        for (let i = 0; i < 18; i++) {
+          const s = document.createElement("span");
+          s.className = "sparkle";
+          s.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;--sp-dur:${2 + Math.random() * 3}s;animation-delay:${Math.random() * 3}s`;
+          layer.appendChild(s);
+        }
+      }
+      initSparkles();
+
+      const canvas = document.getElementById("stars"),
+        ctx = canvas.getContext("2d");
+      let W, H;
+      function resize() {
+        W = canvas.width = innerWidth;
+        H = canvas.height = innerHeight;
+      }
+      resize();
+      addEventListener("resize", resize);
+      const stars = Array.from({ length: 180 }, () => ({
+        x: Math.random() * 9999,
+        y: Math.random() * 9999,
+        r: Math.random() * 0.7 + 0.1,
+        a: Math.random() * 0.5 + 0.2,
+        sp: Math.random() * 0.003 + 0.001,
+        ph: Math.random() * 6.28,
+        gold: Math.random() > 0.85,
+      }));
+      let fr = 0;
+      (function draw() {
+        ctx.clearRect(0, 0, W, H);
+        fr++;
+        stars.forEach((s) => {
+          const a = s.a * (0.4 + 0.6 * Math.sin(fr * s.sp + s.ph));
+          ctx.beginPath();
+          ctx.arc(s.x % W, s.y % H, s.r, 0, 6.28);
+          ctx.fillStyle = s.gold ? `rgba(201,168,76,${a})` : `rgba(255,255,255,${a * 0.6})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      })();
+
+      addEventListener("scroll", () =>
+        document.getElementById("navbar").classList.toggle("scrolled", scrollY > 50),
+      );
+      document
+        .getElementById("menuToggle")
+        .addEventListener("click", () =>
+          document.getElementById("navLinks").classList.toggle("open"),
+        );
+      document
+        .querySelectorAll(".nav-links a")
+        .forEach((a) =>
+          a.addEventListener("click", () =>
+            document.getElementById("navLinks").classList.remove("open"),
+          ),
+        );
+
+      const io = new IntersectionObserver(
+        (es) => {
+          es.forEach((e, i) => {
+            if (e.isIntersecting) setTimeout(() => e.target.classList.add("visible"), i * 60);
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".fade-up").forEach((el) => io.observe(el));
+
+      function submitForm() {
+        const n = document.getElementById("fname").value.trim(),
+          p = document.getElementById("fphone").value.trim(),
+          s = document.getElementById("fservice").value;
+        if (!n || !p || !s) {
+          alert("Completa nombre, teléfono y tipo de lectura.");
+          return;
+        }
+        const msg = encodeURIComponent(
+          `✦ Hola Edunuel, soy *${n}* y quiero una lectura de *${s}*.\n\n${document.getElementById("fmsg").value || ""}`,
+        );
+        open(`https://wa.me/524761006958?text=${msg}`, "_blank");
+        const t = document.getElementById("toast");
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 4000);
+      }
+    </script>
+  </body>
+</html>

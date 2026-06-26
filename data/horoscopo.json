@@ -1,0 +1,89 @@
+{
+  "updated": "2026-06-23",
+  "signs": [
+    {
+      "id": "aries",
+      "symbol": "♈",
+      "name": "Aries",
+      "dates": "Mar 21 — Abr 19",
+      "prediction": "AAAAA"
+    },
+    {
+      "id": "tauro",
+      "symbol": "♉",
+      "name": "Tauro",
+      "dates": "Abr 20 — May 20",
+      "prediction": "Venus trae estabilidad y abundancia. Confía en tu ritmo y permite que lo bueno florezca con paciencia."
+    },
+    {
+      "id": "geminis",
+      "symbol": "♊",
+      "name": "Géminis",
+      "dates": "May 21 — Jun 20",
+      "prediction": "Mercurio abre canales de comunicación. Escucha los mensajes que llegan y expresa tu verdad con claridad."
+    },
+    {
+      "id": "cancer",
+      "symbol": "♋",
+      "name": "Cáncer",
+      "dates": "Jun 21 — Jul 22",
+      "prediction": "La Luna ilumina tu mundo emocional. Sana lo que pesa y abraza la protección de tu intuición."
+    },
+    {
+      "id": "leo",
+      "symbol": "♌",
+      "name": "Leo",
+      "dates": "Jul 23 — Ago 22",
+      "prediction": "El Sol renueva tu confianza interior. Brilla sin miedo; tu luz inspira a quienes te rodean."
+    },
+    {
+      "id": "virgo",
+      "symbol": "♍",
+      "name": "Virgo",
+      "dates": "Ago 23 — Sep 22",
+      "prediction": "Es tiempo de ordenar y purificar. Los pequeños detalles que cuidas hoy traerán grandes resultados."
+    },
+    {
+      "id": "libra",
+      "symbol": "♎",
+      "name": "Libra",
+      "dates": "Sep 23 — Oct 22",
+      "prediction": "Venus equilibra tus relaciones. Busca la armonía sin perderte; tu paz interior es prioridad."
+    },
+    {
+      "id": "escorpio",
+      "symbol": "♏",
+      "name": "Escorpio",
+      "dates": "Oct 23 — Nov 21",
+      "prediction": "Plutón invita a transformación profunda. Suelta lo que ya no sirve y renace con más fuerza."
+    },
+    {
+      "id": "sagitario",
+      "symbol": "♐",
+      "name": "Sagitario",
+      "dates": "Nov 22 — Dic 21",
+      "prediction": "Júpiter expande tus horizontes. Atrévete a soñar en grande y a seguir tu camino con fe."
+    },
+    {
+      "id": "capricornio",
+      "symbol": "♑",
+      "name": "Capricornio",
+      "dates": "Dic 22 — Ene 19",
+      "prediction": "Saturno fortalece tu disciplina. Cada paso firme te acerca a la meta que mereces alcanzar."
+    },
+    {
+      "id": "acuario",
+      "symbol": "♒",
+      "name": "Acuario",
+      "dates": "Ene 20 — Feb 18",
+      "prediction": "Urano trae ideas innovadoras. Confía en tu visión única y conecta con tu propósito auténtico."
+    },
+    {
+      "id": "piscis",
+      "symbol": "♓",
+      "name": "Piscis",
+      "dates": "Feb 19 — Mar 20",
+      "prediction": "Neptuno despierta tu sensibilidad espiritual. La intuición es tu guía; escucha el universo."
+    }
+  ]
+}

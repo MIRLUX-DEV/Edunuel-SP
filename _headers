@@ -1,0 +1,13 @@
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/admin.html
+  X-Robots-Tag: noindex, nofollow
+
+/data/*
+  Cache-Control: no-cache, must-revalidate
+
+/api/horoscopo
+  Cache-Control: no-store

@@ -1,0 +1,14 @@
+# Cloudflare Pages — configuración opcional para desarrollo con Wrangler.
+# En producción, vincula KV y ADMIN_PIN desde el panel de Cloudflare Pages.
+
+name = "oraculo-edunuel"
+compatibility_date = "2024-06-01"
+pages_build_output_dir = "."
+
+[[kv_namespaces]]
+binding = "HOROSCOPE_KV"
+id = "REEMPLAZA_CON_TU_KV_NAMESPACE_ID"
+
+[vars]
+# Mejor definir ADMIN_PIN como secreto en el panel (Settings → Environment variables)
+ADMIN_PIN = "edunuel2026"
