@@ -268,16 +268,11 @@
       <p class="msg" id="statusMsg"></p>
 
       <div class="instructions">
-        <strong>Uso simple:</strong><br />
+        <strong>Publicar en producción:</strong><br />
         1. Edita los textos de cada signo.<br />
         2. Pulsa <strong>«Publicar cambios»</strong>.<br />
-        3. Abre el sitio público y recarga con <strong>F5</strong> — verás lo publicado.<br /><br />
-        <!-- <strong>En tu computadora:</strong> ejecuta <code>python3 serve.py</code> y abre
-        <code>http://127.0.0.1:8080/admin.html</code> (no uses Live Server / puerto 5500).<br /><br />
-        <strong>En internet (Cloudflare Pages):</strong> la primera vez hay que vincular un almacén
-        KV gratuito en el panel de Cloudflare (Functions → KV). Después, «Publicar» funciona igual
-        sin subir archivos a mano.<br /><br />
-        <a href="/">← Ver sitio público</a> -->
+        3. Abre el sitio público y recarga con <strong>F5</strong>.<br /><br />
+        <a href="/">← Ver sitio público</a>
       </div>
     </div>
 
@@ -372,24 +367,22 @@
 
       async function checkPublishApi() {
         const hint = document.getElementById("publishHint");
-        if (location.port === "5500") {
-          hint.textContent =
-            "⚠ Live Server no guarda cambios. Ciérralo y usa: python3 serve.py → http://127.0.0.1:8080/admin.html";
-          hint.classList.add("warn");
-          return;
-        }
         try {
           const r = await fetch(HOROSCOPE_API + "?check=" + Date.now(), { cache: "no-store" });
-          if (r.ok) {
+          if (!r.ok) throw new Error("no-api");
+          const body = await r.json().catch(() => ({}));
+          if (body.writable) {
             hint.textContent =
               "✦ Listo para publicar. Tras «Publicar cambios», recarga el sitio con F5.";
             hint.classList.remove("warn");
             return;
           }
-          throw new Error();
+          hint.textContent =
+            "⚠ La API responde pero falta el almacén KV (HOROSCOPE_KV). En Cloudflare Pages → Settings → Functions → KV namespace bindings, vincula el namespace y vuelve a desplegar.";
+          hint.classList.add("warn");
         } catch (e) {
           hint.textContent =
-            "⚠ No hay API de guardado en este servidor. En local usa python3 serve.py. En internet configura Cloudflare KV (ver instrucciones abajo).";
+            "⚠ No hay API de guardado en este dominio. El sitio debe estar en Cloudflare Pages (no en hosting estático nginx). Revisa dominio personalizado y el despliegue del proyecto «edunuel».";
           hint.classList.add("warn");
         }
       }
@@ -415,11 +408,7 @@
             `✦ Publicado (${data.updated}). Abre el sitio y pulsa F5 para ver los cambios.`,
           );
         } catch (e) {
-          setStatus(
-            e.message ||
-              "No se pudo publicar. En local: python3 serve.py · En internet: activa KV en Cloudflare.",
-            true,
-          );
+          setStatus(e.message || "No se pudo publicar. Revisa la configuración de Cloudflare Pages.", true);
         }
       }
 

@@ -1,9 +1,6 @@
-name = "oraculo-edunuel"
+name = "edunuel"
 compatibility_date = "2024-06-01"
-[assets]
-directory = "."
-# Esto asegura que todo el contenido de esas carpetas se suba
-include = ["assets/**/*", "data/**/*"]
+pages_build_output_dir = "."
 
 [[kv_namespaces]]
 binding = "HOROSCOPE_KV"

@@ -19,6 +19,14 @@ async function readStaticFallback(request) {
 
 export async function onRequestGet(context) {
   const { request, env } = context;
+  const url = new URL(request.url);
+
+  if (url.searchParams.has("check")) {
+    return jsonResponse({
+      ok: true,
+      writable: !!env.HOROSCOPE_KV,
+    });
+  }
 
   if (env.HOROSCOPE_KV) {
     const stored = await env.HOROSCOPE_KV.get(KV_KEY, "json");
