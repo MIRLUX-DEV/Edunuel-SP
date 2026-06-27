@@ -9,5 +9,8 @@
 /data/*
   Cache-Control: no-cache, must-revalidate
 
+/data/version.json
+  Cache-Control: no-store
+
 /api/horoscopo
   Cache-Control: no-store

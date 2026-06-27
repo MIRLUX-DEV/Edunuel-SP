@@ -241,7 +241,7 @@
       <h1>Admin Horóscopo</h1>
       <p class="sub">
         Edita las predicciones y pulsa <strong>Publicar cambios</strong>. El sitio se actualiza al
-        recargar (F5).
+        recargar (F5). <span id="siteVersion"></span>
       </p>
 
       <div class="field">
@@ -296,6 +296,16 @@
 
       let currentData = null;
 
+      async function loadSiteVersion() {
+        try {
+          const r = await fetch("data/version.json?t=" + Date.now(), { cache: "no-store" });
+          if (!r.ok) return;
+          const { version, label } = await r.json();
+          const el = document.getElementById("siteVersion");
+          if (el && version) el.textContent = `Sitio v${version}${label ? ` · ${label}` : ""}`;
+        } catch (e) {}
+      }
+
       function todayLocal() {
         const d = new Date();
         return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -317,6 +327,7 @@
           document.getElementById("lockScreen").style.display = "none";
           document.getElementById("adminPanel").style.display = "block";
           loadFromServer(true);
+          loadSiteVersion();
           checkPublishApi();
         } else alert("PIN incorrecto");
       }

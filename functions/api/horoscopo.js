@@ -10,11 +10,15 @@ function jsonResponse(data, status = 200) {
   });
 }
 
-async function readStaticFallback(request) {
-  const url = new URL("/data/horoscopo.json", request.url);
+async function readStaticJson(request, path) {
+  const url = new URL(path, request.url);
   const res = await fetch(url.toString(), { cf: { cacheTtl: 0 } });
   if (!res.ok) return null;
   return res.json();
+}
+
+async function readStaticFallback(request) {
+  return readStaticJson(request, "/data/horoscopo.json");
 }
 
 export async function onRequestGet(context) {
@@ -22,9 +26,12 @@ export async function onRequestGet(context) {
   const url = new URL(request.url);
 
   if (url.searchParams.has("check")) {
+    const version = await readStaticJson(request, "/data/version.json");
     return jsonResponse({
       ok: true,
       writable: !!env.HOROSCOPE_KV,
+      version: version?.version || null,
+      label: version?.label || null,
     });
   }
 

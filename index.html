@@ -1063,6 +1063,9 @@
         padding-top: 1.5rem;
         border-top: 1px solid rgba(201, 168, 76, 0.1);
       }
+      .footer-version::before {
+        content: " · ";
+      }
 
       .wa-float {
         position: fixed;
@@ -1653,7 +1656,10 @@
           <p>+52 476 100 6958</p>
         </div>
       </div>
-      <p class="footer-copy">© 2026 El Oráculo de Edunuel · Todos los derechos reservados</p>
+      <p class="footer-copy">
+        © 2026 El Oráculo de Edunuel · Todos los derechos reservados
+        <span class="footer-version" id="siteVersion"></span>
+      </p>
     </footer>
 
     <a
@@ -1783,6 +1789,17 @@
         }
       }
       loadHoroscope();
+
+      async function loadSiteVersion() {
+        try {
+          const r = await fetch(`data/version.json?t=${Date.now()}`, { cache: "no-store" });
+          if (!r.ok) return;
+          const { version, label } = await r.json();
+          const el = document.getElementById("siteVersion");
+          if (el && version) el.textContent = `v${version}${label ? ` (${label})` : ""}`;
+        } catch (e) {}
+      }
+      loadSiteVersion();
 
       function initSparkles() {
         const layer = document.getElementById("sparkleLayer");
